@@ -1,0 +1,12 @@
+.idea/
+*.iml
+.env
+venv/
+.pytest_cache/
+**__pycache__/
+**db.sqlite3
+media
+staticfiles/
+*.sqlite3
+*.db
+*.dump
