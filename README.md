@@ -78,3 +78,14 @@ Run the following command to execute tests:
 ```bash
 docker-compose exec web python manage.py test
 ```
+
+This project is available as a Docker image on Docker Hub. 
+To use the Dockerized version of the project, follow these steps:
+To pull the prebuilt Docker image from Docker Hub, run:
+```bash
+docker pull yulia2506/theatre-api:latest
+```
+Run the container using the following command:
+```bash
+docker run -p 8000:8000 yulia2506/theatre-api:latest
+```
