@@ -89,3 +89,13 @@ Run the container using the following command:
 ```bash
 docker run -p 8000:8000 yulia2506/theatre-api:latest
 ```
+
+## A little visualization of the work
+##  1.
+![Project Screenshot](admin.panel_1.jpg)
+## 2.
+![Project Screenshot](admin.panel_2.jpg)
+## 3.
+![Project Screenshot](admin.panel_3.jpg)
+## 4.
+![Project Screenshot](admin.panel_4.jpg)
