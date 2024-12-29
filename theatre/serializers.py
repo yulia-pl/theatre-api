@@ -49,7 +49,9 @@ class PlaySerializer(serializers.ModelSerializer):
 
 class PerformanceSerializer(serializers.ModelSerializer):
     play_title = serializers.CharField(source="play.title", read_only=True)
-    theatre_hall_name = serializers.CharField(source="theatre_hall.name", read_only=True)
+    theatre_hall_name = serializers.CharField(
+        source="theatre_hall.name", read_only=True
+    )
     available_tickets = serializers.IntegerField(read_only=True)
 
     class Meta:
@@ -89,15 +91,25 @@ class ReservationSerializer(serializers.ModelSerializer):
         return representation
 
 
-
-
 class TicketSerializer(serializers.ModelSerializer):
-    performance_title = serializers.CharField(source="performance.play.title", read_only=True)
-    theatre_hall_name = serializers.CharField(source="performance.theatre_hall.name", read_only=True)
+    performance_title = serializers.CharField(
+        source="performance.play.title", read_only=True
+    )
+    theatre_hall_name = serializers.CharField(
+        source="performance.theatre_hall.name", read_only=True
+    )
 
     class Meta:
         model = Ticket
-        fields = ["id", "row", "seat", "performance", "performance_title", "theatre_hall_name", "reservation"]
+        fields = [
+            "id",
+            "row",
+            "seat",
+            "performance",
+            "performance_title",
+            "theatre_hall_name",
+            "reservation",
+        ]
 
     def validate(self, attrs):
         performance = attrs.get("performance")
@@ -105,7 +117,11 @@ class TicketSerializer(serializers.ModelSerializer):
         seat = attrs.get("seat")
 
         if row > performance.theatre_hall.rows:
-            raise serializers.ValidationError(f"Row {row} exceeds maximum rows for this theatre hall.")
+            raise serializers.ValidationError(
+                f"Row {row} exceeds maximum rows for this theatre hall."
+            )
         if seat > performance.theatre_hall.seats_in_row:
-            raise serializers.ValidationError(f"Seat {seat} exceeds maximum seats for this theatre hall.")
+            raise serializers.ValidationError(
+                f"Seat {seat} exceeds maximum seats for this theatre hall."
+            )
         return attrs

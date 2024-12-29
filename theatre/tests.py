@@ -8,7 +8,7 @@ from theatre.models import (
     Play,
     Performance,
     Reservation,
-    Ticket
+    Ticket,
 )
 
 
@@ -19,11 +19,7 @@ class TheatreAPITestCase(APITestCase):
         self.client.force_authenticate(user=self.user)
 
         # Theatre Hall
-        self.theatre_hall_data = {
-            "name": "Main Hall",
-            "rows": 10,
-            "seats_in_row": 15
-        }
+        self.theatre_hall_data = {"name": "Main Hall", "rows": 10, "seats_in_row": 15}
         self.theatre_hall = TheatreHall.objects.create(**self.theatre_hall_data)
 
         # Genre
@@ -41,7 +37,7 @@ class TheatreAPITestCase(APITestCase):
         self.performance = Performance.objects.create(
             play=self.play,
             theatre_hall=self.theatre_hall,
-            show_time="2024-12-31T19:00:00Z"
+            show_time="2024-12-31T19:00:00Z",
         )
 
         # Reservation
@@ -49,10 +45,7 @@ class TheatreAPITestCase(APITestCase):
 
         # Ticket
         self.ticket = Ticket.objects.create(
-            row=5,
-            seat=7,
-            performance=self.performance,
-            reservation=self.reservation
+            row=5, seat=7, performance=self.performance, reservation=self.reservation
         )
 
     def test_get_theatre_halls(self):
@@ -62,11 +55,7 @@ class TheatreAPITestCase(APITestCase):
         self.assertEqual(response.data[0]["name"], self.theatre_hall_data["name"])
 
     def test_create_theatre_hall(self):
-        new_hall_data = {
-            "name": "Small Hall",
-            "rows": 5,
-            "seats_in_row": 8
-        }
+        new_hall_data = {"name": "Small Hall", "rows": 5, "seats_in_row": 8}
         response = self.client.post("/api/theatre-halls/", new_hall_data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(TheatreHall.objects.count(), 2)
@@ -83,7 +72,7 @@ class TheatreAPITestCase(APITestCase):
             "title": "Othello",
             "description": "Another tragedy.",
             "genres": [self.genre.id],
-            "actors": [self.actor.id]
+            "actors": [self.actor.id],
         }
         response = self.client.post("/api/plays/", new_play_data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -100,9 +89,11 @@ class TheatreAPITestCase(APITestCase):
         new_performance_data = {
             "play": self.play.id,
             "theatre_hall": self.theatre_hall.id,
-            "show_time": "2025-01-01T20:00:00Z"
+            "show_time": "2025-01-01T20:00:00Z",
         }
-        response = self.client.post("/api/performances/", new_performance_data, format="json")
+        response = self.client.post(
+            "/api/performances/", new_performance_data, format="json"
+        )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Performance.objects.count(), 2)
 
@@ -129,7 +120,7 @@ class TheatreAPITestCase(APITestCase):
             "row": 6,
             "seat": 8,
             "performance": self.performance.id,
-            "reservation": self.reservation.id
+            "reservation": self.reservation.id,
         }
         response = self.client.post("/api/tickets/", new_ticket_data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
