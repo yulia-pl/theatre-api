@@ -22,7 +22,7 @@ class GenreSerializer(serializers.ModelSerializer):
 
 
 class ActorSerializer(serializers.ModelSerializer):
-    full_name = serializers.CharField(source="full_name", read_only=True)
+    full_name = serializers.CharField(read_only=True)
 
     class Meta:
         model = Actor
@@ -77,11 +77,18 @@ class ReservationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reservation
         fields = ["id", "created_at", "user", "user_username", "total_tickets"]
+        extra_kwargs = {"user": {"read_only": True}}
+
+    def create(self, validated_data):
+        validated_data["user"] = self.context["request"].user
+        return super().create(validated_data)
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         representation["total_tickets"] = instance.total_tickets()
         return representation
+
+
 
 
 class TicketSerializer(serializers.ModelSerializer):

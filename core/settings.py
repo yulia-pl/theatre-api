@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     "theatre",
     "user",
     "drf_yasg",
+    "django_filters",
 ]
 
 MIDDLEWARE = [

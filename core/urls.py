@@ -5,11 +5,12 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework.permissions import AllowAny
 
+
 schema_view = get_schema_view(
     openapi.Info(
         title="Theatre API",
         default_version="v1",
-        description="API for Theatre Management",
+        description="API for managing theatre performances",
         terms_of_service="https://www.google.com/policies/terms/",
         contact=openapi.Contact(email="your_email@example.com"),
         license=openapi.License(name="BSD License"),
@@ -24,5 +25,5 @@ urlpatterns = [
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("api/", include("theatre.urls")),
     path("api/doc/swagger/", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
+    path("api/doc/openapi/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
 ]
-
